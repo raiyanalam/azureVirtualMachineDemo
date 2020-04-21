@@ -1,0 +1,25 @@
+
+
+name: Pipeline to provision a VM in Azure and deploy an app to it
+
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+
+jobs:  
+  ProvisionAzureVM:    
+    runs-on: ubuntu-latest    
+    steps:
+    - uses: actions/checkout@v2
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:    
+    - uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}    
+    - run: |
+        az webapp list --query "[?state=='Running']"
