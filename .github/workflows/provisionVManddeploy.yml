@@ -8,10 +8,9 @@ on:
     branches: [ master ]
   pull_request:
     branches: [ master ]
-
-
+    
 jobs:  
-  ProvisionAzureVM:
+  provisionAzureVM:
     runs-on: ubuntu-latest
     steps:    
     - uses: azure/login@v1
@@ -31,8 +30,8 @@ jobs:
       run: |
         az vm open-port --port 22 --resource-group raiyan-rg2 --name rai-ubuntu-vm-github
 
-  DeployAppOnVM:
-    needs: ProvisionAzureVM
+  deployAppOnVM:
+    needs: provisionAzureVM
     - name: deploy_app
       uses: appleboy/ssh-action@master
       with:
