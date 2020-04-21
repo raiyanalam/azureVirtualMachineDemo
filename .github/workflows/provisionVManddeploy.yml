@@ -17,12 +17,25 @@ jobs:
     - uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}    
-    - run: |
-        az vm image list --location westus --publisher Canonical --offer UbuntuServer --sku 18.04-LTS --all --output table
+    - id: listAvailableIMages
+      run: az vm image list --location westus --publisher Canonical --offer UbuntuServer --sku 18.04-LTS --all --output table
+    - id: create VM
+      run: |       
         az vm create \
         --resource-group raiyan-rg2 \
         --name rai-ubuntu-vm-github \
         --image UbuntuLTS \
         --admin-username moala \
         --admin-password ${{ secrets.admin_password }}
-      
+    - id: open ssh port
+      run: |
+        az vm open-port --port 22 --resource-group raiyan-rg2 --name rai-ubuntu-vm-github
+    - name: deploy app
+      uses: appleboy/ssh-action@master
+      with:
+        host: rai-ubuntu-vm-github
+        username: moala
+        password: ${{ secrets.admin_password }}
+        port: 22
+        script:  echo 'Running deploy scripts'
+        
