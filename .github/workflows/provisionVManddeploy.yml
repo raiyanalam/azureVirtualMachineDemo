@@ -19,3 +19,10 @@ jobs:
         creds: ${{ secrets.AZURE_CREDENTIALS }}    
     - run: |
         az vm image list --location westus --publisher Canonical --offer UbuntuServer --sku 18.04-LTS --all --output table
+        az vm create \
+        --resource-group raiyan-rg2 \
+        --name rai-ubuntu-vm-github \
+        --image UbuntuLTS \
+        --admin-username moala \
+        --admin-password ${{ secrets.admin_password }}
+      
