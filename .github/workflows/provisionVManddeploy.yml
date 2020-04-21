@@ -19,7 +19,7 @@ jobs:
         creds: ${{ secrets.AZURE_CREDENTIALS }}    
     - id: listAvailableIMages
       run: az vm image list --location westus --publisher Canonical --offer UbuntuServer --sku 18.04-LTS --all --output table
-    - id: create VM
+    - id: create_Azure_VM
       run: |       
         az vm create \
         --resource-group raiyan-rg2 \
@@ -27,10 +27,13 @@ jobs:
         --image UbuntuLTS \
         --admin-username moala \
         --admin-password ${{ secrets.admin_password }}
-    - id: open ssh port
+    - id: open_ssh_port
       run: |
         az vm open-port --port 22 --resource-group raiyan-rg2 --name rai-ubuntu-vm-github
-    - name: deploy app
+
+  DeployAppOnVM:
+    needs: ProvisionAzureVM
+    - name: deploy_app
       uses: appleboy/ssh-action@master
       with:
         host: rai-ubuntu-vm-github
