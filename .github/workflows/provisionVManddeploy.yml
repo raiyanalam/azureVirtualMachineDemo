@@ -1,5 +1,5 @@
 
-name: Pipeline to provision a VM in Azure and deploy an app to it
+name: Pipeline to provision a VM in Azure and deploy an app to it.
 
 on:
   push:
