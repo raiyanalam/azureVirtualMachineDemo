@@ -1,7 +1,5 @@
 
-
 name: Pipeline to provision a VM in Azure and deploy an app to it
-
 
 on:
   push:
@@ -31,7 +29,7 @@ jobs:
 
       run: |
         az vm open-port --port 22 --resource-group raiyan-rg2 --name rai-ubuntu-vm-github
-    - name: deploy_app
+    - name: Deploy App
       uses: appleboy/ssh-action@master
       with:
         host: rai-vm-dns01.southindia.cloudapp.azure.com
